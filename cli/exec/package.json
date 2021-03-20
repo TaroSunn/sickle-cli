@@ -1,6 +1,6 @@
 {
   "name": "@sickle/cli-exec",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "execute package",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
   "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/cli/cli-exec#readme",
@@ -27,7 +27,7 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-package": "^1.0.2",
-    "@sickle/cli-log": "^1.0.2"
+    "@sickle/cli-log": "^1.0.2",
+    "@sickle/cli-package": "^1.0.3"
   }
 }
