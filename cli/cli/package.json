@@ -30,17 +30,18 @@
         "access": "public"
     },
     "dependencies": {
+        "@sickle/cli-exec": "^1.0.2",
         "@sickle/cli-get-npm-info": "^1.0.2",
+        "@sickle/cli-init": "^1.0.2",
         "@sickle/cli-log": "^1.0.2",
         "@sickle/cli-utils": "^1.0.2",
         "colors": "^1.4.0",
+        "commander": "^7.1.0",
         "dotenv": "^8.2.0",
         "import-local": "^3.0.2",
-        "minimist": "^1.2.5",
         "npmlog": "^4.1.2",
         "path-exists": "^4.0.0",
         "root-check": "^1.0.0",
-        "semver": "^7.3.4",
         "user-home": "^2.0.0"
     }
 }
