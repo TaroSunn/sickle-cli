@@ -3,10 +3,15 @@
 const inquirer = require('inquirer')
 const fse = require('fs-extra')
 const fs = require('fs')
+const path = require('path')
 const semver = require('semver')
+const userHome = require('user-home')
+const {spinnerStart, sleep} = require('@sickle/cli-utils')
 const Command = require('@sickle/cli-command')
-const log = require('@sickle/cli-log')
+const Package = require('@sickle/cli-package')
 
+const log = require('@sickle/cli-log')
+const getProjectTemplate = require('./getProjectTemplate')
 const TYPE_PROJECT = 'project'
 const TYPE_COMPONENT = 'component'
 
@@ -21,20 +26,60 @@ class InitCommand extends Command {
         try {
             // 准备阶段
             const projectInfo = await this.prepare()
-            console.log(projectInfo)
+            this.projectInfo = projectInfo
             if(projectInfo) {
                 // 下载模版
-                this.downloadTemplate()
+                await this.downloadTemplate()
                 // 安装模版
             }
         } catch (error) {
             log.error(error.message)
         }
     }
-    downloadTemplate() {
+    async downloadTemplate() {
+        const {projectTemplate} = this.projectInfo
+        const templateInfo = this.template.find(item => item.npmName === projectTemplate)
+        const targetPath = path.resolve(userHome, '.sickle-cli', 'template')
+        const storePath = path.resolve(userHome, '.sickle-cli', 'template', 'node_modules')
+        const {npmName, version} = templateInfo
+        const templateNpm = new Package({
+            targetPath,
+            storePath,
+            packageName: npmName,
+            packageVersion: version
+        })
+        if(!await templateNpm.exists()) {
+            const sipnner = spinnerStart('正在下载模版...')
+            await sleep()
+            try {
+                await templateNpm.install()
+                log.success('模版下载成功')
+            } catch (error) {
+                throw error
+            } finally {
+                sipnner.stop(true)
+            }
+        } else {
+            const sipnner = spinnerStart('正在更新模版...')
+            await sleep()
+            try {
+                await templateNpm.update()
+                log.success('模版更新成功')
+            } catch (error) {
+                throw error
+            } finally {
+                sipnner.stop(true)
+            }
 
+        }
     }
     async prepare() {
+        // 判断项目模版
+        const template = await getProjectTemplate()
+        if(!template || template.length === 0) {
+            throw new Error('项目模版不存在！')
+        }
+        this.template = template
         const localPath = process.cwd() // 命令执行文件夹目录
         // 判断当前目录是否为空
         if(!this.ifDirIsEmpty(localPath)) {
@@ -134,6 +179,11 @@ class InitCommand extends Command {
                         return v
                     }
                 }
+            }, {
+                type: 'list',
+                name: 'projectTemplate',
+                message: '请选择项目模版',
+                choices: this.createTemplateChoice()
             }])
             projectInfo = {
                 type,
@@ -143,7 +193,12 @@ class InitCommand extends Command {
 
         }
         return projectInfo
-
+    }
+    createTemplateChoice() {
+        return this.template.map(item => ({
+            value: item.npmName,
+            name: item.name
+        }))
     }
 }
 function init(...argv) {
