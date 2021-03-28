@@ -138,7 +138,8 @@ class InitCommand extends Command {
             spinner.stop(true)
             log.success('模版安装成功')
         }
-        const ignore = ['node_modules/**', 'public/**']
+        const templateIgnore = this.templateInfo.ignore || []
+        const ignore = ['**/node_modules/**', ...templateIgnore]
         await this.ejsRender({ignore})
         const {installCommand, startCommand} = this.templateInfo
         // 依赖安装
@@ -269,68 +270,95 @@ class InitCommand extends Command {
             }]
         })
         log.verbose('type', type)
+        this.template = this.template.filter(template => {
+            return template.tag.includes(type)
+        })
+        const title = type === TYPE_PROJECT ? '项目' : '组件'
         // 获取项目基本信息
-        if(type === TYPE_PROJECT) {
-            const projectNamePrompt = {
-                type: 'input',
-                name: 'projectName',
-                message: '请输入项目名称',
-                default: '',
-                validate: function(v) {
-                    const done = this.async()
-                    setTimeout(() => {
-                        if(!isValidName(v)) {
-                            done('请输入合法项目名称')
-                            return
-                        }
-                        done(null, true)
-                    }, 0);
-                },
-                filter: (v) => {
+        const projectNamePrompt = {
+            type: 'input',
+            name: 'projectName',
+            message: `请输入${title}名称`,
+            default: '',
+            validate: function(v) {
+                const done = this.async()
+                setTimeout(() => {
+                    if(!isValidName(v)) {
+                        done(`请输入合法${title}名称`)
+                        return
+                    }
+                    done(null, true)
+                }, 0);
+            },
+            filter: (v) => {
+                return v
+            }
+        }
+        let projectPrompt = []
+        if(!isProjectNameVaild) {
+            projectPrompt.push(projectNamePrompt)
+        }
+        projectPrompt.push(
+        {
+            type: 'input',
+            name: 'projectVersion',
+            message: `请输入${title}版本号`,
+            default: '1.0.0',
+            validate: function(v) {
+                const done = this.async()
+                setTimeout(() => {
+                    if(!(!!semver.valid(v))) {
+                        done('请输入合法版本号')
+                        return
+                    }
+                    done(null, true)
+                }, 0);
+            },
+            filter: (v) => {
+                if(!!semver.valid(v)) {
+                    return semver.valid(v)
+                } else {
                     return v
                 }
             }
-            let projectPrompt = []
-            if(!isProjectNameVaild) {
-                projectPrompt.push(projectNamePrompt)
-            }
-            projectPrompt.push(
-            {
-                type: 'input',
-                name: 'projectVersion',
-                message: '请输入项目版本号',
-                default: '1.0.0',
-                validate: function(v) {
-                    const done = this.async()
-                    setTimeout(() => {
-                        if(!(!!semver.valid(v))) {
-                            done('请输入合法版本号')
-                            return
-                        }
-                        done(null, true)
-                    }, 0);
-                },
-                filter: (v) => {
-                    if(!!semver.valid(v)) {
-                        return semver.valid(v)
-                    } else {
-                        return v
-                    }
-                }
-            }, {
-                type: 'list',
-                name: 'projectTemplate',
-                message: '请选择项目模版',
-                choices: this.createTemplateChoice()
-            })
+        }, {
+            type: 'list',
+            name: 'projectTemplate',
+            message: `请选择${title}模版`,
+            choices: this.createTemplateChoice()
+        })
+        if(type === TYPE_PROJECT) {
+
             const project = await inquirer.prompt(projectPrompt)
             projectInfo = {
                 ...projectInfo,
                 type,
                 ...project
             }
-        } else if (type === TYPE_PROJECT) {
-
+        } else if (type === TYPE_COMPONENT) {
+            const descriptionPrompt = {
+                type: 'input',
+                name: 'componentDescription',
+                message: '请输入组件库描述信息',
+                default: '',
+                validate: function(v) {
+                    const done = this.async()
+                    setTimeout(() => {
+                        if(!v) {
+                            done('请输入组件库描述信息')
+                            return
+                        }
+                        done(null, true)
+                    }, 0);
+                }
+            }
+            projectPrompt.push(descriptionPrompt)
+            const component = await inquirer.prompt(projectPrompt)
+            projectInfo = {
+                ...projectInfo,
+                type,
+                ...component
+            }
         }
         if(projectInfo.projectName) {
             projectInfo.name = projectInfo.projectName
@@ -338,6 +366,9 @@ class InitCommand extends Command {
         }
         if(projectInfo.projectVersion) {
             projectInfo.version = projectInfo.projectVersion
+        }
+        if(projectInfo.componentDescription) {
+            projectInfo.description = projectInfo.componentDescription
         }
         return projectInfo
     }
