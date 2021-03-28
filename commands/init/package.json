@@ -32,8 +32,11 @@
     "@sickle/cli-package": "^1.0.4",
     "@sickle/cli-request": "^1.0.4",
     "@sickle/cli-utils": "^1.0.4",
+    "ejs": "^3.1.6",
     "fs-extra": "^9.1.0",
+    "glob": "^7.1.6",
     "inquirer": "^8.0.0",
+    "kebab-case": "^1.0.1",
     "semver": "^7.3.4",
     "user-home": "^2.0.0"
   }

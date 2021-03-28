@@ -6,7 +6,9 @@ const fs = require('fs')
 const path = require('path')
 const semver = require('semver')
 const userHome = require('user-home')
-const {spinnerStart, sleep} = require('@sickle/cli-utils')
+const glob = require('glob')
+const ejs = require('ejs')
+const {spinnerStart, sleep, execAsync} = require('@sickle/cli-utils')
 const Command = require('@sickle/cli-command')
 const Package = require('@sickle/cli-package')
 
@@ -14,6 +16,9 @@ const log = require('@sickle/cli-log')
 const getProjectTemplate = require('./getProjectTemplate')
 const TYPE_PROJECT = 'project'
 const TYPE_COMPONENT = 'component'
+const TEMPLATE_TYPE_NORMAL = 'normal'
+const TEMPLATE_TYPE_CUSTOM = 'custom'
+const WHITE_COMMAND = ['npm', 'cnpm', 'yarn']
 
 class InitCommand extends Command {
     init() {
@@ -31,17 +36,128 @@ class InitCommand extends Command {
                 // 下载模版
                 await this.downloadTemplate()
                 // 安装模版
+                await this.installTemplate()
             }
         } catch (error) {
             log.error(error.message)
         }
     }
+
+    async installTemplate() {
+        if(this.templateInfo) {
+            if(!this.templateInfo.type) {
+                this.templateInfo.type = TEMPLATE_TYPE_NORMAL
+            }
+            if(this.templateInfo.type === TEMPLATE_TYPE_NORMAL) {
+                // 标准模版
+                await this.installNormalTemplate()
+            } else if (this.templateInfo.type === TEMPLATE_TYPE_CUSTOM) {
+                // 自定义模版
+                await this.installCustomTemplate()
+            } else {
+                throw new Error('项目模版类型无法识别')
+            }
+        } else {
+            throw new Error('项目模版信息不存在！')
+        }
+    }
+
+    checkCommand(cmd) {
+        if(WHITE_COMMAND.includes(cmd)) {
+            return cmd
+        }
+        return null
+    }
+
+    async execCommand(command, errMsg) {
+        let ret
+        if(command) {
+            const cmdArray = command.split(' ')
+            const cmd = this.checkCommand(cmdArray[0])
+            if(!cmd) {
+                throw new Error('命令不存在！命令：' + command)
+            }
+            const args = cmdArray.slice(1)
+            ret = await execAsync(cmd, args, {
+                stdio: 'inherit',
+                cwd: process.cwd()
+            })
+        }
+        if(ret !== 0) {
+            throw new Error(errMsg ,'项目依赖安装失败')
+        }
+    }
+
+    ejsRender(options) {
+        const dir = process.cwd()
+        return new Promise((resolve, reject) => {
+            glob('**', {
+                cwd: dir,
+                ignore: options.ignore || '',
+                nodir: true
+            }, (err, files) => {
+                if(err) {
+                    reject(err)
+                }
+                Promise.all(files.map(file => {
+                    const filePath = path.join(dir, file)
+                    return new Promise((resolve1, reject1) => {
+                        ejs.renderFile(filePath, this.projectInfo, {}, (err, result) => {
+                            if(err) {
+                                reject1(err)
+                            } else {
+                                fse.writeFileSync(filePath, result)
+                                resolve1(result)
+                            }
+                        })
+                    })                    
+                })).then(() => {
+                    resolve()
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        })    
+    }
+
+    async installNormalTemplate() {
+        let spinner = spinnerStart('正在安装模版...')
+        await sleep()
+        try {
+            // 获取模版代码目录
+            const templatePath = path.resolve(this.templateNpm.cacheFilePath, 'template')
+            // 获取当前目录
+            const targetPath = process.cwd()
+            fse.ensureDirSync(templatePath)
+            fse.ensureDirSync(targetPath)
+            // 拷贝模版代码至当前目录
+            fse.copySync(templatePath, targetPath)
+        } catch (error) {
+            throw error
+        } finally {
+            spinner.stop(true)
+            log.success('模版安装成功')
+        }
+        const ignore = ['node_modules/**', 'public/**']
+        await this.ejsRender({ignore})
+        const {installCommand, startCommand} = this.templateInfo
+        // 依赖安装
+        await this.execCommand(installCommand, '项目依赖安装失败')
+        // 项目启动
+        await this.execCommand(startCommand, '项目启动失败')     
+    }
+
+    async installCustomTemplate() {
+        console.log('custom')
+    }
+
     async downloadTemplate() {
         const {projectTemplate} = this.projectInfo
         const templateInfo = this.template.find(item => item.npmName === projectTemplate)
         const targetPath = path.resolve(userHome, '.sickle-cli', 'template')
         const storePath = path.resolve(userHome, '.sickle-cli', 'template', 'node_modules')
         const {npmName, version} = templateInfo
+        this.templateInfo = templateInfo
         const templateNpm = new Package({
             targetPath,
             storePath,
@@ -53,22 +169,28 @@ class InitCommand extends Command {
             await sleep()
             try {
                 await templateNpm.install()
-                log.success('模版下载成功')
             } catch (error) {
                 throw error
             } finally {
                 sipnner.stop(true)
+                if(await templateNpm.exists()) {
+                    log.success('模版下载成功')
+                    this.templateNpm = templateNpm
+                }
             }
         } else {
             const sipnner = spinnerStart('正在更新模版...')
             await sleep()
             try {
                 await templateNpm.update()
-                log.success('模版更新成功')
             } catch (error) {
                 throw error
             } finally {
                 sipnner.stop(true)
+                if(await templateNpm.exists()) {
+                    log.success('模版更新成功')
+                    this.templateNpm = templateNpm
+                }
             }
 
         }
@@ -108,6 +230,8 @@ class InitCommand extends Command {
                 if(confirmDelete) {
                     // 清空当前目录
                     fse.emptyDirSync(localPath)
+                } else {
+                    return
                 }
             }
         }
@@ -121,7 +245,15 @@ class InitCommand extends Command {
         return !fileList || fileList.length <= 0
     }
     async getProjectInfo() {
+        function isValidName(v) {
+            return /^[a-zA-Z]+([-][a-zA-Z]+[a-zA-Z0-9]*|[_][a-zA-Z]+[a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(v)
+        }
         let projectInfo = {}
+        let isProjectNameVaild = false
+        if(isValidName(this.projectName)) {
+            isProjectNameVaild = true
+            projectInfo.projectName = this.projectName
+        }
         // 选择创建类型
         const {type} = await inquirer.prompt({
             type: 'list',
@@ -139,7 +271,7 @@ class InitCommand extends Command {
         log.verbose('type', type)
         // 获取项目基本信息
         if(type === TYPE_PROJECT) {
-            const project = await inquirer.prompt([{
+            const projectNamePrompt = {
                 type: 'input',
                 name: 'projectName',
                 message: '请输入项目名称',
@@ -147,7 +279,7 @@ class InitCommand extends Command {
                 validate: function(v) {
                     const done = this.async()
                     setTimeout(() => {
-                        if(!/^[a-zA-Z]+([-][a-zA-Z]+[a-zA-Z0-9]*|[_][a-zA-Z]+[a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(v)) {
+                        if(!isValidName(v)) {
                             done('请输入合法项目名称')
                             return
                         }
@@ -157,7 +289,13 @@ class InitCommand extends Command {
                 filter: (v) => {
                     return v
                 }
-            }, {
+            }
+            let projectPrompt = []
+            if(!isProjectNameVaild) {
+                projectPrompt.push(projectNamePrompt)
+            }
+            projectPrompt.push(
+            {
                 type: 'input',
                 name: 'projectVersion',
                 message: '请输入项目版本号',
@@ -184,13 +322,22 @@ class InitCommand extends Command {
                 name: 'projectTemplate',
                 message: '请选择项目模版',
                 choices: this.createTemplateChoice()
-            }])
+            })
+            const project = await inquirer.prompt(projectPrompt)
             projectInfo = {
+                ...projectInfo,
                 type,
                 ...project
             }
         } else if (type === TYPE_PROJECT) {
 
+        }
+        if(projectInfo.projectName) {
+            projectInfo.name = projectInfo.projectName
+            projectInfo.className = require('kebab-case')(projectInfo.projectName).replace(/^-/, '')
+        }
+        if(projectInfo.projectVersion) {
+            projectInfo.version = projectInfo.projectVersion
         }
         return projectInfo
     }
