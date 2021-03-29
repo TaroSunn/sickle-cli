@@ -1,9 +1,9 @@
 'use strict';
 
 const path = require('path')
-const cp = require('child_process')
 const Package = require('@sickle/cli-package')
 const log = require('@sickle/cli-log')
+const {exec: spawn} = require('@sickle/cli-utils')
 
 const SETTINGS = {
     init: '@sickle/cli-init'
@@ -82,15 +82,6 @@ async function exec(...args) {
             log.error(e.message)
         }
     }
-
-}
-
-function spawn(command, args, options) {
-    const win32 = process.platform === 'win32'
-    const cmd = win32 ? 'cmd' : command
-    const cmdArgs = win32 ? ['/c'].concat(command, args) : args
-
-    return cp.spawn(cmd, cmdArgs, options || {})
 
 }
 
