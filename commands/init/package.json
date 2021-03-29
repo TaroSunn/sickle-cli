@@ -1,6 +1,6 @@
 {
   "name": "@sickle/cli-init",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "init",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
   "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/cli/cli-init#readme",
@@ -29,9 +29,9 @@
   "dependencies": {
     "@sickle/cli-command": "^1.0.3",
     "@sickle/cli-log": "^1.0.2",
-    "@sickle/cli-package": "^1.0.4",
-    "@sickle/cli-request": "^1.0.4",
-    "@sickle/cli-utils": "^1.0.4",
+    "@sickle/cli-package": "^1.0.5",
+    "@sickle/cli-request": "^1.0.5",
+    "@sickle/cli-utils": "^1.0.5",
     "ejs": "^3.1.6",
     "fs-extra": "^9.1.0",
     "glob": "^7.1.6",
