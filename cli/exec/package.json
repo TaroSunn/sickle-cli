@@ -27,8 +27,8 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-log": "^1.0.2",
-    "@sickle/cli-package": "^1.0.6",
-    "@sickle/cli-utils": "^1.0.6"
+    "@sickle/cli-log": "workspace:*",
+    "@sickle/cli-package": "workspace:*",
+    "@sickle/cli-utils": "workspace:*"
   }
 }

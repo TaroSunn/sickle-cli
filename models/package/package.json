@@ -27,9 +27,9 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-format-path": "^1.0.3",
-    "@sickle/cli-get-npm-info": "^1.0.3",
-    "@sickle/cli-utils": "^1.0.6",
+    "@sickle/cli-format-path": "workspace:*",
+    "@sickle/cli-get-npm-info": "workspace:*",
+    "@sickle/cli-utils": "workspace:*",
     "fs-extra": "^9.1.0",
     "npminstall": "^4.10.0",
     "path-exists": "^4.0.0",

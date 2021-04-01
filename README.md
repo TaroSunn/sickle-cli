@@ -49,7 +49,6 @@ lerna.json 配置
 
 如果需要在packages 里的安装具体模块
 
-
 发布
 
 每个package.json 都需要添加
@@ -58,3 +57,6 @@ lerna.json 配置
     "access": "public"
 }
 ```
+# 项目安装
+
+`yarn install`
