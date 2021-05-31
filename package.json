@@ -1,0 +1,23 @@
+{
+  "name": "sickle-cli",
+  "version": "1.0.0",
+  "description": "sickle cli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaroSunn/sickle-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TaroSunn/sickle-cli/issues"
+  },
+  "homepage": "https://github.com/TaroSunn/sickle-cli#readme",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
