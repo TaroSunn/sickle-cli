@@ -1,5 +1,5 @@
 # learn 用处
-关于`learn`，只是使用`learn` 发布项目、创建包的命令
+关于`lerna`，只是使用`lerna` 发布项目、创建包的命令
 
 # monorepo
 
@@ -10,7 +10,7 @@
 
 第一个方案，会导致项目整体会特别大，每一个项目的`package.json`都会下载一遍
 
-不同项目之间的引用 通过 `npm link` 或者 `file` 的方式，这种方式只能手动操作
+不同项目之间的引用 通过 `npm link` 和 `file` 的方式，这种方式只能手动操作
 
 第二个方案
 
@@ -18,7 +18,11 @@
 
 [第一版](https://github.com/TaroSunn/sickle-cli/tree/main)使用`yarn workspace` 方案
 
-所以此次重构 使用 npm workspace，踩一下 npm workspace 的坑
+~~所以此次重构 使用 npm workspace，踩一下 npm workspace 的坑~~
+
+使用这种方式无法删除`node_modules`中的依赖包
+
+暂时采用`yarn workspace`方案 😂
 
 # npm workspace使用
  
@@ -35,3 +39,33 @@
 安装 package
 
 例如在 `@sickle/cli` 下安装 `axios`，则需要执行命令`npm i axios --workspace @sickle/cli`
+
+# yarn workspace使用
+
+配置 `package.json`
+``` json
+{
+  "private": true,
+  "workspaces": ["workspace-a", "workspace-b"]
+}
+```
+
+安装依赖
+
+```
+yarn workspace package名 (add or remove) 依赖名
+
+yarn workspace @sickle/cli add axios
+```
+
+安装全部依赖
+```
+yarn install
+```
+
+# lerna 使用
+
+常用命令
+* lerna create 包名
+* lerna version
+* lerna publish
