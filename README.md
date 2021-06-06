@@ -78,3 +78,5 @@ yarn add package名 -W
 * lerna version
 * lerna publish
 
+使用`lerna create`命令时，可以传入创建package目录地址，默认不写地址，会`lerna.json`中的`packages`中的第一个作为默认地址 
+

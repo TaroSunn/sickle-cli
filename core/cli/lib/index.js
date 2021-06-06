@@ -1,8 +1,14 @@
 'use strict';
 
 module.exports = core;
+const log = require('@sickle/cli-utils-log')
+const pkg = require('../package.json')
 
 function core(...arg) {
-    // TODO
-    console.log(arg)
+    checkPkgVersion()
+}
+
+
+function checkPkgVersion() {
+    log.notice('cli', pkg.version)
 }
