@@ -80,3 +80,8 @@ yarn add package名 -W
 
 使用`lerna create`命令时，可以传入创建package目录地址，默认不写地址，会`lerna.json`中的`packages`中的第一个作为默认地址 
 
+# 最低Nodejs版本
+
+脚手架最低支持的node版本为`v12.0.0`,如果低于这个版本，将会报错
+
+这里处理判断版本采用[semver](https://www.npmjs.com/package/semver)
