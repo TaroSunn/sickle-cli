@@ -1,11 +1,14 @@
 {
-  "name": "@sickle/cli-utils",
+  "name": "@sickle/cli",
   "version": "2.0.1",
-  "description": "sickle cli utils",
+  "description": "sickle cli",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
-  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/packages/utils#readme",
+  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/packages/cli#readme",
   "license": "ISC",
-  "main": "lib/utils.js",
+  "main": "lib/index.js",
+  "bin": {
+    "sickle": "bin/index.js"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -25,5 +28,10 @@
   },
   "bugs": {
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
+  },
+  "dependencies": {
+    "@sickle/cli-utils": "^2.0.1",
+    "import-local": "^3.0.2",
+    "npmlog": "^4.1.2"
   }
 }

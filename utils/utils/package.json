@@ -1,14 +1,11 @@
 {
-  "name": "@sickle/cli",
+  "name": "@sickle/cli-utils",
   "version": "2.0.1",
-  "description": "sickle cli",
+  "description": "sickle cli utils",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
-  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/packages/cli#readme",
+  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/packages/utils#readme",
   "license": "ISC",
-  "main": "lib/cli.js",
-  "bin": {
-    "sickle": "bin/index.js"
-  },
+  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },

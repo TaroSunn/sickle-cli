@@ -1,6 +1,9 @@
 {
   "packages": [
-    "packages/*"
+    "core/*",
+    "commands/*",
+    "models/*",
+    "utils/*"
   ],
   "useWorkspaces": true,
   "version": "2.0.1"

@@ -63,9 +63,18 @@ yarn workspace @sickle/cli add axios
 yarn install
 ```
 
+# 根目录安装pakcage
+如果想要在根目录安装包，需要使用 `-W`的方式
+
+```
+yarn add package名 -W
+```
+
+
 # lerna 使用
 
 常用命令
 * lerna create 包名
 * lerna version
 * lerna publish
+

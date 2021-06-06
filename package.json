@@ -5,7 +5,10 @@
   "main": "index.js",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "core/*",
+    "commands/*",
+    "models/*",
+    "utils/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,5 +26,6 @@
   "homepage": "https://github.com/TaroSunn/sickle-cli#readme",
   "devDependencies": {
     "lerna": "^4.0.0"
-  }
+  },
+  "dependencies": {}
 }
