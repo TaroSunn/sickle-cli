@@ -85,3 +85,12 @@ yarn add package名 -W
 脚手架最低支持的node版本为`v12.0.0`,如果低于这个版本，将会报错
 
 这里处理判断版本采用[semver](https://www.npmjs.com/package/semver)
+
+# 检查root账号
+
+如果用户使用 root 账号来创建项目，会导致项目开发遇到问题，那么在用户使用root账户创建项目时，要对root账号进行降级，以满足创建的项目可以被修改
+
+在mac环境下，使用`process.geteuid()`,普通用户的`uid`是501，root用户为0
+
+可以使用[root-check](https://www.npmjs.com/package/root-check)
+

@@ -12,6 +12,7 @@ function core(...arg) {
     try {
         checkPkgVersion()
         checkNodeVersion()
+        checkRoot()
     } catch (error) {
         log.error(error.message)
     }
@@ -26,5 +27,9 @@ function checkNodeVersion() {
     if(!semver.gte(currentVersion, LOWEST_NODE_VERSION)) {
         throw new Error(colors.red(`@sickel/cli 需要安装 v${LOWEST_NODE_VERSION} 以上版本的 Nodejs`))
     }
-    console.log(process.version)
+}
+
+function checkRoot() {
+    const rootCheck = require('root-check')
+    rootCheck()
 }
