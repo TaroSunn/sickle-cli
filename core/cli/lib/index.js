@@ -4,7 +4,7 @@ module.exports = core;
 
 const {homedir} = require('os')
 const path = require('path')
-const log = require('@sickle/cli-utils-log')
+const log = require('@sickle/cli-log')
 const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists')
