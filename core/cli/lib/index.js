@@ -5,6 +5,8 @@ module.exports = core;
 const log = require('@sickle/cli-utils-log')
 const semver = require('semver')
 const colors = require('colors/safe')
+const {homedir} = require('os')
+const pathExists = require('path-exists')
 const {LOWEST_NODE_VERSION} = require('./const')
 const pkg = require('../package.json')
 
@@ -13,6 +15,7 @@ function core(...arg) {
         checkPkgVersion()
         checkNodeVersion()
         checkRoot()
+        checkUserHome()
     } catch (error) {
         log.error(error.message)
     }
@@ -32,4 +35,11 @@ function checkNodeVersion() {
 function checkRoot() {
     const rootCheck = require('root-check')
     rootCheck()
+}
+
+
+function checkUserHome() {
+    if(!homedir() || !pathExists(homedir())) {
+        throw new Error(colors.red('当前登陆用户主目录不存在！'))
+    }
 }

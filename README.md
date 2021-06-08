@@ -94,3 +94,8 @@ yarn add package名 -W
 
 可以使用[root-check](https://www.npmjs.com/package/root-check)
 
+# 获取用户主目录
+
+获取用户主目录的主要原因是，后期会对项目和项目模版做缓存，缓存的地址为用户主目录
+
+可以使用Node.js原生方法`os.homedir()`
