@@ -16,6 +16,7 @@ function core(...arg) {
         checkNodeVersion()
         checkRoot()
         checkUserHome()
+        checkInputArgs()
     } catch (error) {
         log.error(error.message)
     }
@@ -42,4 +43,18 @@ function checkUserHome() {
     if(!homedir() || !pathExists(homedir())) {
         throw new Error(colors.red('当前登陆用户主目录不存在！'))
     }
+}
+
+function checkInputArgs() {
+    const minimist = require('minimist')
+    const args = minimist(process.argv.slice(2))
+    checkArgs(args)
+}
+function checkArgs(args) {
+    if(args.debug) {
+        process.env.LOG_LEVEL = 'verbose'
+    } else {
+        process.env.LOG_LEVEL = 'info'
+    }
+    log.level = process.env.LOG_LEVEL
 }

@@ -33,6 +33,7 @@
     "@sickle/cli-utils-log": "^2.0.1",
     "colors": "^1.4.0",
     "import-local": "^3.0.2",
+    "minimist": "^1.2.5",
     "npmlog": "^4.1.2",
     "path-exists": "^4.0.0",
     "root-check": "1.0.0",
