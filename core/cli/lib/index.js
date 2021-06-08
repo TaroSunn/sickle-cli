@@ -2,12 +2,13 @@
 
 module.exports = core;
 
+const {homedir} = require('os')
+const path = require('path')
 const log = require('@sickle/cli-utils-log')
 const semver = require('semver')
 const colors = require('colors/safe')
-const {homedir} = require('os')
 const pathExists = require('path-exists')
-const {LOWEST_NODE_VERSION} = require('./const')
+const {LOWEST_NODE_VERSION, DEFAULT_CLI_HOME} = require('./const')
 const pkg = require('../package.json')
 
 function core(...arg) {
@@ -17,6 +18,7 @@ function core(...arg) {
         checkRoot()
         checkUserHome()
         checkInputArgs()
+        checkEnv()
     } catch (error) {
         log.error(error.message)
     }
@@ -57,4 +59,30 @@ function checkArgs(args) {
         process.env.LOG_LEVEL = 'info'
     }
     log.level = process.env.LOG_LEVEL
+}
+
+
+function checkEnv() {
+    const dotenv = require('dotenv')
+    const dotenvPath = path.resolve(homedir(), '.env')
+    if(pathExists(dotenvPath)) {
+        dotenv.config({
+            path: dotenvPath
+        })
+    }
+    createDefaultConfig()
+    log.verbose('环境变量', process.env.CLI_HOME_PATH)
+}
+
+function createDefaultConfig() {
+    const cliConfig = {
+        home: homedir()
+    }
+    if(process.env.CLI_HOME) {
+        cliConfig['cliHome'] = path.join(homedir(), process.env.CLI_HOME)
+    } else {
+        cliConfig['cliHome'] = path.join(homedir(), DEFAULT_CLI_HOME)
+    }
+    process.env.CLI_HOME_PATH = cliConfig.cliHome
+    return cliConfig
 }

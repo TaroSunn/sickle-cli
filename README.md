@@ -99,3 +99,7 @@ yarn add package名 -W
 获取用户主目录的主要原因是，后期会对项目和项目模版做缓存，缓存的地址为用户主目录
 
 可以使用Node.js原生方法`os.homedir()`
+
+# 获取环境变量
+
+会讲一部分信息储存到环境变量中，读取环境变量，使用[dotenv](https://www.npmjs.com/package/dotenv)来获取
