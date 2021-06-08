@@ -103,3 +103,13 @@ yarn add package名 -W
 # 获取环境变量
 
 会讲一部分信息储存到环境变量中，读取环境变量，使用[dotenv](https://www.npmjs.com/package/dotenv)来获取
+
+# 版本提示
+
+在执行脚手架业务逻辑之前，需要对脚手架的版本进行判断，如果有新版本发布，那么需要提示用户更新脚手架版本
+
+具体流程
+* 获取package
+* 通过npm api 获取package信息
+* 借助semver，将package的version 与npm最新版本比较
+* 提示或继续执行后续流程

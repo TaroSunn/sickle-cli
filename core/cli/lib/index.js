@@ -5,13 +5,14 @@ module.exports = core;
 const {homedir} = require('os')
 const path = require('path')
 const log = require('@sickle/cli-log')
+const {getNpmInfo} = require('@sickle/cli-get-npm-info')
 const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists')
 const {LOWEST_NODE_VERSION, DEFAULT_CLI_HOME} = require('./const')
 const pkg = require('../package.json')
 
-function core(...arg) {
+async function core(...arg) {
     try {
         checkPkgVersion()
         checkNodeVersion()
@@ -19,6 +20,7 @@ function core(...arg) {
         checkUserHome()
         checkInputArgs()
         checkEnv()
+        await checkGlobalUpdate()
     } catch (error) {
         log.error(error.message)
     }
@@ -85,4 +87,11 @@ function createDefaultConfig() {
     }
     process.env.CLI_HOME_PATH = cliConfig.cliHome
     return cliConfig
+}
+
+async function checkGlobalUpdate() {
+    const currentVersion = pkg.version
+    const npmName = pkg.name
+    const data = await getNpmInfo(npmName)
+    console.log(data)
 }

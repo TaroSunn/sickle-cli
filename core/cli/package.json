@@ -30,6 +30,7 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
+    "@sickle/cli-get-npm-info": "^2.0.1",
     "@sickle/cli-log": "^2.0.1",
     "colors": "^1.4.0",
     "dotenv": "^10.0.0",
