@@ -5,7 +5,7 @@ module.exports = core;
 const {homedir} = require('os')
 const path = require('path')
 const log = require('@sickle/cli-log')
-const {getNpmInfo} = require('@sickle/cli-get-npm-info')
+const {getNpmSemverVersion} = require('@sickle/cli-get-npm-info')
 const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists')
@@ -92,6 +92,10 @@ function createDefaultConfig() {
 async function checkGlobalUpdate() {
     const currentVersion = pkg.version
     const npmName = pkg.name
-    const data = await getNpmInfo(npmName)
-    console.log(data)
+    const lastVersion = await getNpmSemverVersion(currentVersion, npmName)
+    if(lastVersion && semver.gt(lastVersion, currentVersion)) {
+        log.warn(colors.yellow(`请手动更新${npmName},当前版本: ${currentVersion}, 最新版本: ${lastVersion}
+            更新命令: npm install -g ${npmName}
+        `))
+    }
 }
