@@ -5,6 +5,7 @@ module.exports = core;
 const {homedir} = require('os')
 const path = require('path')
 const log = require('@sickle/cli-log')
+const init = require('@sickle/cli-init')
 const {getNpmSemverVersion} = require('@sickle/cli-get-npm-info')
 const semver = require('semver')
 const colors = require('colors/safe')
@@ -95,7 +96,10 @@ function registerCommand() {
         .usage('<command> [options]')
         .version(pkg.version)
         .option('-d, --debug', '是否开启调试模式', false)
-
+    program
+        .command('init [projectName]')
+        .option('-f, --force', '是否强制初始化项目目录')
+        .action()
     program.on('option:debug', () => {
         const option = program.opts()
         if(option.debug) {

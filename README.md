@@ -58,6 +58,8 @@ yarn workspace package名 (add or remove) 依赖名
 yarn workspace @sickle/cli add axios
 ```
 
+默认 执行`add`时会去npm上下载，此时安装的不是当前本地的版本，那么可以通过加版本号来更新本地版本
+
 安装全部依赖
 ```
 yarn install
@@ -122,3 +124,9 @@ yarn add package名 -W
 * -d debug选项，用于debug，这里debug不会有实质的操作，只是用于打印信息用
 
 对于配有配备到的命令，我们采用输出帮助信息的方式做一个提示
+
+# 命令 init
+
+`init`命令，代码统一在`commands/init`目录下
+
+`init`命令，有一个`-f, --force`的选项，这个选项主要用处是清空当前命令执行目录文件，可能安装脚手架目录存在其他文件，此时使用`-f`，将会强制清楚当前目录
