@@ -8,9 +8,12 @@ const log = require('@sickle/cli-log')
 const {getNpmSemverVersion} = require('@sickle/cli-get-npm-info')
 const semver = require('semver')
 const colors = require('colors/safe')
-const pathExists = require('path-exists')
+const pathExists = require('path-exists').sync
+const commander = require('commander')
 const {LOWEST_NODE_VERSION, DEFAULT_CLI_HOME} = require('./const')
 const pkg = require('../package.json')
+
+const program = new commander.Command()
 
 async function core(...arg) {
     try {
@@ -18,9 +21,9 @@ async function core(...arg) {
         checkNodeVersion()
         checkRoot()
         checkUserHome()
-        checkInputArgs()
         checkEnv()
         await checkGlobalUpdate()
+        registerCommand()
     } catch (error) {
         log.error(error.message)
     }
@@ -47,20 +50,6 @@ function checkUserHome() {
     if(!homedir() || !pathExists(homedir())) {
         throw new Error(colors.red('当前登陆用户主目录不存在！'))
     }
-}
-
-function checkInputArgs() {
-    const minimist = require('minimist')
-    const args = minimist(process.argv.slice(2))
-    checkArgs(args)
-}
-function checkArgs(args) {
-    if(args.debug) {
-        process.env.LOG_LEVEL = 'verbose'
-    } else {
-        process.env.LOG_LEVEL = 'info'
-    }
-    log.level = process.env.LOG_LEVEL
 }
 
 
@@ -97,5 +86,36 @@ async function checkGlobalUpdate() {
         log.warn(colors.yellow(`请手动更新${npmName},当前版本: ${currentVersion}, 最新版本: ${lastVersion}
             更新命令: npm install -g ${npmName}
         `))
+    }
+}
+
+function registerCommand() {
+    program
+        .name(Object.keys(pkg.bin)[0])
+        .usage('<command> [options]')
+        .version(pkg.version)
+        .option('-d, --debug', '是否开启调试模式', false)
+
+    program.on('option:debug', () => {
+        const option = program.opts()
+        if(option.debug) {
+            process.env.LOG_LEVEL = 'verbose'
+        } else {
+            process.env.LOG_LEVEL = 'info'
+        }
+        log.level = process.env.LOG_LEVEL
+        log.verbose('test', '测试')
+    })
+
+    program.on('command:*', (obj) => {
+        const availableCommands = program.commands.map(cmd => cmd.name())
+        console.log(colors.red('未知命令：' + obj[0]))
+        console.log(colors.red('可用命令：' + availableCommands.join(',')))
+    })
+
+    program.parse(process.argv)
+    if(program.args && program.args.length < 1) {
+        program.outputHelp()
+        console.log()
     }
 }

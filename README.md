@@ -113,3 +113,12 @@ yarn add package名 -W
 * 通过npm api 获取package信息
 * 借助semver，将package的version 与npm最新版本比较
 * 提示或继续执行后续流程
+
+# 脚手架命令
+脚手架命令部分，使用`commander`这个包来开发
+
+除了`commander`提供的`-V`输出版本号、`-h`输出帮助信息外，我们自定义了
+
+* -d debug选项，用于debug，这里debug不会有实质的操作，只是用于打印信息用
+
+对于配有配备到的命令，我们采用输出帮助信息的方式做一个提示
