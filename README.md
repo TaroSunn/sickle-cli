@@ -106,6 +106,11 @@ yarn add package名 -W
 
 ## models
 
+把有些统一的功能封装成一个models，使用类的方式，来服用这些功能
+
+### package
+
+
 ## utils
 脚手架封装了一下utils方法，放到utils目录下
 
