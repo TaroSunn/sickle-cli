@@ -18,16 +18,20 @@ const program = new commander.Command()
 
 async function core(...arg) {
     try {
-        checkPkgVersion()
-        checkNodeVersion()
-        checkRoot()
-        checkUserHome()
-        checkEnv()
-        await checkGlobalUpdate()
+        await prepare()
         registerCommand()
     } catch (error) {
         log.error(error.message)
     }
+}
+
+async function prepare() {
+    checkPkgVersion()
+    checkNodeVersion()
+    checkRoot()
+    checkUserHome()
+    checkEnv()
+    await checkGlobalUpdate()
 }
 
 function checkPkgVersion() {
@@ -63,7 +67,6 @@ function checkEnv() {
         })
     }
     createDefaultConfig()
-    log.verbose('环境变量', process.env.CLI_HOME_PATH)
 }
 
 function createDefaultConfig() {
@@ -96,10 +99,13 @@ function registerCommand() {
         .usage('<command> [options]')
         .version(pkg.version)
         .option('-d, --debug', '是否开启调试模式', false)
+        .option('-tp, --targetPath <targetPath>', '是否制定本地调试文件路径', '')        
+
     program
         .command('init [projectName]')
         .option('-f, --force', '是否强制初始化项目目录')
-        .action()
+        .action(init)
+
     program.on('option:debug', () => {
         const option = program.opts()
         if(option.debug) {
@@ -109,6 +115,11 @@ function registerCommand() {
         }
         log.level = process.env.LOG_LEVEL
         log.verbose('test', '测试')
+    })
+
+    program.on('option:targetPath', () => {
+        const option = program.opts()
+        process.env.CLI_TARGET_PATH = option.targetPath
     })
 
     program.on('command:*', (obj) => {

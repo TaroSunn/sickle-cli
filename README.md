@@ -129,4 +129,11 @@ yarn add package名 -W
 
 `init`命令，代码统一在`commands/init`目录下
 
+`init`命令后面可以跟一个项目名称，例如 `init testProject`
+
 `init`命令，有一个`-f, --force`的选项，这个选项主要用处是清空当前命令执行目录文件，可能安装脚手架目录存在其他文件，此时使用`-f`，将会强制清楚当前目录
+
+# 选项 targetPath
+
+`-tp, --targetPath`这个选项用于执行本地代码的路径, 用于调试
+
