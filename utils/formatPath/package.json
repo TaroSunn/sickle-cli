@@ -1,9 +1,9 @@
 {
-  "name": "@sickle/cli-package",
+  "name": "@sickle/cli-formatPath",
   "version": "2.0.1",
   "description": "> TODO: description",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
-  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/models/cli-package#readme",
+  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/utils/cli-formatPath#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -25,10 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
-  },
-  "dependencies": {
-    "@sickle/cli-formatPath": "^2.0.1",
-    "@sickle/cli-utils": "^2.0.1",
-    "pkg-dir": "^5.0.0"
   }
 }

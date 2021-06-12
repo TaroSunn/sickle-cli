@@ -110,6 +110,32 @@ yarn add package名 -W
 
 ### package
 
+Package 提供一下几个方法
+
+#### exists 判断当前Package是否存在
+
+#### install 安装Package
+
+#### update 更新Package
+
+#### getRootFilePath 获取Package入口文件路径
+
+* 首先获取package.json所在目录
+* 读取package.json main目录
+* 输出目录
+
+在使用Package时需要传入
+
+#### targetPath package路径
+
+#### storePath package缓存路径
+缓存到本地的一个路径下
+
+#### packageName package的name
+用于下载 package
+
+#### packageVersion package的版本号
+用于下载 packageVersion
 
 ## utils
 脚手架封装了一下utils方法，放到utils目录下
