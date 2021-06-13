@@ -1,7 +1,10 @@
 'use strict';
 
 const path = require('path')
+const os = require('os')
+const npminstall = require('npminstall')
 const pkgDir = require('pkg-dir').sync
+const {getDefaultRegistry} = require('@sickle/cli-get-npm-info')
 const {isObject} = require('@sickle/cli-utils')
 const formatPath = require('@sickle/cli-formatPath')
 class Package {
@@ -23,7 +26,15 @@ class Package {
     }
 
     install() {
-
+        return npminstall({
+            root: this.targetPath,
+            storeDir: this.storePath,
+            registry: getDefaultRegistry(),
+            pkgs: [{
+                name: this.packageName,
+                version: this.packageVersion
+            }]
+        })
     }
 
     update() {

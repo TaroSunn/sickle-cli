@@ -116,20 +116,24 @@ Package 提供一下几个方法
 
 #### install 安装Package
 
+安装Pakcage的功能主要是通过[npminstall](https://www.npmjs.com/package/npminstall)来实现
+
+
 #### update 更新Package
 
 #### getRootFilePath 获取Package入口文件路径
 
-* 首先获取package.json所在目录
+* 首先获取package.json所在目录 这里可以使用[pkg-dir](https://www.npmjs.com/package/pkg-dir)这个包来查找
 * 读取package.json main目录
 * 输出目录
 
 在使用Package时需要传入
 
 #### targetPath package路径
+这个是执行 init 逻辑目录
 
 #### storePath package缓存路径
-缓存到本地的一个路径下
+如果没有安装过 init 命令 那么需要将 init 逻辑 缓存到本地的一个路径下
 
 #### packageName package的name
 用于下载 package

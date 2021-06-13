@@ -22,6 +22,9 @@ async function core(...arg) {
         registerCommand()
     } catch (error) {
         log.error(error.message)
+        if(process.env.LOG_LEVEL === 'verbose') {
+            console.log(error)
+        }
     }
 }
 
