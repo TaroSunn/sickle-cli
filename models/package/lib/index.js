@@ -4,7 +4,8 @@ const path = require('path')
 const os = require('os')
 const npminstall = require('npminstall')
 const pkgDir = require('pkg-dir').sync
-const {getDefaultRegistry} = require('@sickle/cli-get-npm-info')
+const pathExists = require('path-exists').sync
+const {getDefaultRegistry, getNpmLatestVersion} = require('@sickle/cli-get-npm-info')
 const {isObject} = require('@sickle/cli-utils')
 const formatPath = require('@sickle/cli-formatPath')
 class Package {
@@ -19,13 +20,30 @@ class Package {
         this.storePath = options.storePath
         this.packageName = options.packageName
         this.packageVersion = options.packageVersion
+        this.cacheFilePathPrefix = this.packageName.replace('/', '_')
     }
 
-    exists() {
-
+    async prepare() {
+        if(this.packageVersion === 'latest') {
+            this.packageVersion = await getNpmLatestVersion(this.packageName)
+        }
     }
 
-    install() {
+    get cacheFilePath() {
+        return path.resolve(this.storePath, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`)
+    }
+
+    async exists() {
+        if(this.storePath) {
+            await this.prepare()
+            return pathExists(this.cacheFilePath)
+        } else {
+            return pathExists(this.targetPath)
+        }
+    }
+
+    async install() {
+        await this.prepare()
         return npminstall({
             root: this.targetPath,
             storeDir: this.storePath,

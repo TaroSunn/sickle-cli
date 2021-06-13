@@ -31,6 +31,7 @@
     "@sickle/cli-get-npm-info": "^2.0.1",
     "@sickle/cli-utils": "^2.0.1",
     "npminstall": "^4.11.0",
+    "path-exists": "^4.0.0",
     "pkg-dir": "^5.0.0"
   }
 }

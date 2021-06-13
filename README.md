@@ -123,6 +123,8 @@ Package 提供一下几个方法
 
 #### getRootFilePath 获取Package入口文件路径
 
+#### prepare 获取具体版本号
+
 * 首先获取package.json所在目录 这里可以使用[pkg-dir](https://www.npmjs.com/package/pkg-dir)这个包来查找
 * 读取package.json main目录
 * 输出目录

@@ -38,7 +38,8 @@ async function exec(...args) {
             packageVersion
         })
     
-        if(pkg.exists()) {
+        if(await pkg.exists()) {
+            console.log('更新package')
             // 检查更新
         } else {
             await pkg.install()
@@ -51,7 +52,6 @@ async function exec(...args) {
             packageVersion
         })
     }
-
     const rootFile = pkg.getRootFilePath()
     if(rootFile) {
         require(rootFile).apply(null, arguments)
