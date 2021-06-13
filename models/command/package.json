@@ -1,9 +1,9 @@
 {
-  "name": "@sickle/cli-init",
+  "name": "@sickle/cli-command",
   "version": "2.0.1",
   "description": "> TODO: description",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
-  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/commands/cli-init#readme",
+  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/models/cli-command#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -27,7 +27,8 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-command": "^2.0.1",
-    "@sickle/cli-log": "^2.0.1"
+    "@sickle/cli-log": "^2.0.1",
+    "colors": "^1.4.0",
+    "semver": "^7.3.5"
   }
 }

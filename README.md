@@ -147,6 +147,14 @@ Package 提供一下几个方法
 #### packageVersion package的版本号
 用于下载 packageVersion
 
+### command
+
+command类提供一下几个方法
+
+#### init
+
+#### exec
+
 ## utils
 脚手架封装了一下utils方法，放到utils目录下
 

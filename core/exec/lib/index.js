@@ -54,6 +54,14 @@ async function exec(...args) {
     }
     const rootFile = pkg.getRootFilePath()
     if(rootFile) {
-        require(rootFile).apply(null, arguments)
+        try {
+            require(rootFile).call(null, Array.from(arguments))
+            
+        } catch (error) {
+            log.error(error.message)
+            if(process.env.LOG_LEVEL === 'verbose') {
+                console.log(error)
+            }
+        }
     }
 }

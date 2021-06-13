@@ -11,7 +11,7 @@ const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists').sync
 const commander = require('commander')
-const {LOWEST_NODE_VERSION, DEFAULT_CLI_HOME} = require('./const')
+const {DEFAULT_CLI_HOME} = require('./const')
 const pkg = require('../package.json')
 
 const program = new commander.Command()
@@ -30,7 +30,6 @@ async function core(...arg) {
 
 async function prepare() {
     checkPkgVersion()
-    checkNodeVersion()
     checkRoot()
     checkUserHome()
     checkEnv()
@@ -39,13 +38,6 @@ async function prepare() {
 
 function checkPkgVersion() {
     log.notice('cli', pkg.version)
-}
-
-function checkNodeVersion() {
-    const currentVersion = process.version
-    if(!semver.gte(currentVersion, LOWEST_NODE_VERSION)) {
-        throw new Error(colors.red(`@sickel/cli 需要安装 v${LOWEST_NODE_VERSION} 以上版本的 Nodejs`))
-    }
 }
 
 function checkRoot() {
