@@ -82,14 +82,21 @@ class Package {
     }
 
     getRootFilePath() {
-        const dir = pkgDir(this.targetPath)
-        if(dir) {
-            const pkgFile = require(path.resolve(dir, 'package.json'))
-            if(pkgFile && (pkgFile.main)) {
-                return formatPath(path.resolve(dir, pkgFile.main))
+        function _getRootFile(targetPath) {
+            const dir = pkgDir(targetPath)
+            if(dir) {
+                const pkgFile = require(path.resolve(dir, 'package.json'))
+                if(pkgFile && (pkgFile.main)) {
+                    return formatPath(path.resolve(dir, pkgFile.main))
+                }
             }
         }
-        return null
+        if(this.storePath) {
+            return _getRootFile(this.cacheFilePath)
+            
+        } else {
+            return _getRootFile(this.targetPath)
+        }
     }
 }
 

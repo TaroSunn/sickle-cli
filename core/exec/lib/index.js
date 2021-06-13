@@ -23,7 +23,7 @@ async function exec(...args) {
     const cmdObj = args[args.length - 1]
     const cmdName = cmdObj.name()
     const packageName = SETTINGS[cmdName]
-    const packageVersion = '1.0.2'
+    const packageVersion = 'latest'
 
     if(!targetPath) {
         targetPath = path.resolve(homePath, CACHE_DIR)
@@ -40,7 +40,6 @@ async function exec(...args) {
     
         if(await pkg.exists()) {
             await pkg.update()
-            
             // 检查更新
         } else {
             await pkg.install()
