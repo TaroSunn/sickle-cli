@@ -30,6 +30,7 @@
     "@sickle/cli-formatPath": "^2.0.1",
     "@sickle/cli-get-npm-info": "^2.0.1",
     "@sickle/cli-utils": "^2.0.1",
+    "fs-extra": "^10.0.0",
     "npminstall": "^4.11.0",
     "path-exists": "^4.0.0",
     "pkg-dir": "^5.0.0"

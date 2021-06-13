@@ -121,6 +121,10 @@ Package 提供一下几个方法
 
 #### update 更新Package
 
+* 获取到最新版本号
+* 判断最新版本号对应的路径是否存在
+* 不存在安装
+
 #### getRootFilePath 获取Package入口文件路径
 
 #### prepare 获取具体版本号

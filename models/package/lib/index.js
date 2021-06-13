@@ -5,6 +5,7 @@ const os = require('os')
 const npminstall = require('npminstall')
 const pkgDir = require('pkg-dir').sync
 const pathExists = require('path-exists').sync
+const fse = require('fs-extra')
 const {getDefaultRegistry, getNpmLatestVersion} = require('@sickle/cli-get-npm-info')
 const {isObject} = require('@sickle/cli-utils')
 const formatPath = require('@sickle/cli-formatPath')
@@ -24,6 +25,9 @@ class Package {
     }
 
     async prepare() {
+        if(this.storePath && !pathExists(this.storePath)) {
+            fse.mkdirpSync(this.storePath)
+        }
         if(this.packageVersion === 'latest') {
             this.packageVersion = await getNpmLatestVersion(this.packageName)
         }
@@ -31,6 +35,10 @@ class Package {
 
     get cacheFilePath() {
         return path.resolve(this.storePath, `_${this.cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`)
+    }
+
+    getSpecificCacheFilePath(packageVersion) {
+        return path.resolve(this.storePath, `_${this.cacheFilePathPrefix}@${packageVersion}@${this.packageName}`)
     }
 
     async exists() {
@@ -55,8 +63,22 @@ class Package {
         })
     }
 
-    update() {
-
+    async update() {
+        await this.prepare()
+        const latestPackageVersion = await getNpmLatestVersion(this.packageName)
+        const latestFilePath = this.getSpecificCacheFilePath(latestPackageVersion)
+        if(!pathExists(latestFilePath)) {
+            await npminstall({
+                root: this.targetPath,
+                storeDir: this.storePath,
+                registry: getDefaultRegistry(),
+                pkgs: [{
+                    name: this.packageName,
+                    version: latestPackageVersion
+                }]
+            })
+            this.packageVersion = latestPackageVersion
+        }
     }
 
     getRootFilePath() {
