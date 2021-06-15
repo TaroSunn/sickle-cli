@@ -28,6 +28,9 @@
   },
   "dependencies": {
     "@sickle/cli-command": "^2.0.1",
-    "@sickle/cli-log": "^2.0.1"
+    "@sickle/cli-log": "^2.0.1",
+    "fs-extra": "^10.0.0",
+    "inquirer": "^8.1.0",
+    "semver": "^7.3.5"
   }
 }
