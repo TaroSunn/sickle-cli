@@ -8,7 +8,8 @@
     "core/*",
     "commands/*",
     "models/*",
-    "utils/*"
+    "utils/*",
+    "template/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,0 +1,21 @@
+{
+  "name": "@sickle/cli-template-vue3",
+  "version": "2.0.1",
+  "description": "> TODO: description",
+  "author": "tarosun <sunxiaomingyes@gmail.com>",
+  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/template/cli-template-vue3#readme",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaroSunn/sickle-cli.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/TaroSunn/sickle-cli/issues"
+  }
+}
