@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-const cliFormatpath = require('@sickle/cli-formatPath');
+const cliFormatpath = require('@sickle/cli-formatpath');
 
 // TODO: DEMONSTRATE API
 ```

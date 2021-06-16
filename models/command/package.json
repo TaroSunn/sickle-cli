@@ -30,5 +30,6 @@
     "@sickle/cli-log": "^2.0.2",
     "colors": "^1.4.0",
     "semver": "^7.3.5"
-  }
+  },
+  "gitHead": "a9db2422dbf7da752cf508ee4c1a223df50feda0"
 }

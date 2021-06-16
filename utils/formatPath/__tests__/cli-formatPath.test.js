@@ -2,6 +2,6 @@
 
 const cliFormatpath = require('..');
 
-describe('@sickle/cli-formatPath', () => {
+describe('@sickle/cli-formatpath', () => {
     it('needs tests');
 });

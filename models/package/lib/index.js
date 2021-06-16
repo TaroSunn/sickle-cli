@@ -8,7 +8,7 @@ const pathExists = require('path-exists').sync
 const fse = require('fs-extra')
 const {getDefaultRegistry, getNpmLatestVersion} = require('@sickle/cli-get-npm-info')
 const {isObject} = require('@sickle/cli-utils')
-const formatPath = require('@sickle/cli-formatPath')
+const formatPath = require('@sickle/cli-formatpath')
 class Package {
     constructor(options) {
         if(!options) {

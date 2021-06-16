@@ -29,5 +29,6 @@
   "dependencies": {
     "@sickle/cli-log": "^2.0.2",
     "@sickle/cli-package": "^2.0.2"
-  }
+  },
+  "gitHead": "a9db2422dbf7da752cf508ee4c1a223df50feda0"
 }

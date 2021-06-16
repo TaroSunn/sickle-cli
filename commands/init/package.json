@@ -32,5 +32,6 @@
     "fs-extra": "^10.0.0",
     "inquirer": "^8.1.0",
     "semver": "^7.3.5"
-  }
+  },
+  "gitHead": "a9db2422dbf7da752cf508ee4c1a223df50feda0"
 }

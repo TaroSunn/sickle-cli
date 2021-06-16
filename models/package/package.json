@@ -27,12 +27,13 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-formatPath": "^2.0.2",
+    "@sickle/cli-formatpath": "^2.0.2",
     "@sickle/cli-get-npm-info": "^2.0.2",
     "@sickle/cli-utils": "^2.0.2",
     "fs-extra": "^10.0.0",
     "npminstall": "^4.11.0",
     "path-exists": "^4.0.0",
     "pkg-dir": "^5.0.0"
-  }
+  },
+  "gitHead": "a9db2422dbf7da752cf508ee4c1a223df50feda0"
 }
