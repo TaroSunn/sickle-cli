@@ -1,6 +1,6 @@
 {
   "name": "@sickle/cli-command",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "> TODO: description",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
   "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/models/cli-command#readme",
@@ -27,7 +27,7 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-log": "^2.0.2",
+    "@sickle/cli-log": "^2.0.3",
     "colors": "^1.4.0",
     "semver": "^7.3.5"
   },
