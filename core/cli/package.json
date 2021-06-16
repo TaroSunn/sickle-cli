@@ -1,6 +1,6 @@
 {
   "name": "@sickle/cli",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "sickle cli",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
   "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/packages/cli#readme",
@@ -30,10 +30,10 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-exec": "^2.0.1",
-    "@sickle/cli-get-npm-info": "^2.0.1",
-    "@sickle/cli-init": "^2.0.1",
-    "@sickle/cli-log": "^2.0.1",
+    "@sickle/cli-exec": "^2.0.2",
+    "@sickle/cli-get-npm-info": "^2.0.2",
+    "@sickle/cli-init": "^2.0.2",
+    "@sickle/cli-log": "^2.0.2",
     "colors": "^1.4.0",
     "commander": "^7.2.0",
     "dotenv": "^10.0.0",

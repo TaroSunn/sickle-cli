@@ -1,6 +1,6 @@
 {
   "name": "@sickle/cli-package",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "> TODO: description",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
   "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/models/cli-package#readme",
@@ -27,9 +27,9 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-formatPath": "^2.0.1",
-    "@sickle/cli-get-npm-info": "^2.0.1",
-    "@sickle/cli-utils": "^2.0.1",
+    "@sickle/cli-formatPath": "^2.0.2",
+    "@sickle/cli-get-npm-info": "^2.0.2",
+    "@sickle/cli-utils": "^2.0.2",
     "fs-extra": "^10.0.0",
     "npminstall": "^4.11.0",
     "path-exists": "^4.0.0",
