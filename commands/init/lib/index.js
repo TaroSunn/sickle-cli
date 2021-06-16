@@ -17,15 +17,19 @@ class InitCommand extends Command {
     }
     async exec() {
         try {
-            const ret = await this.prepare()  
-            if(ret) {
-
+            const projectInfo = await this.prepare()  
+            if(projectInfo) {
+                log.verbose('projectInfo', projectInfo)
             }
         } catch (error) {
             log.error(error)
         }
     }
 
+    downloadTemplate() {
+
+    }
+    
     async prepare() {
         const localPath = process.cwd()
         if(!this.isDirEmpty(localPath)) {
@@ -56,7 +60,7 @@ class InitCommand extends Command {
         return await this.getProjectInfo()
     }
     async getProjectInfo() {
-        const projectInfo = {}
+        let projectInfo = {}
         const {type} = await inquirer.prompt({
             type: 'list',
             message: '请选择项目初始化类型',
@@ -72,7 +76,7 @@ class InitCommand extends Command {
         })
         log.verbose('type', type)
         if(type === TYPE_PROJECT) {
-            const o = await inquirer.prompt([{
+            const project = await inquirer.prompt([{
                 type: 'input',
                 name: 'projectName',
                 message: '请输入项目名称',
@@ -109,7 +113,10 @@ class InitCommand extends Command {
                     return semver.valid(v) ? semver.valid(v) : v
                 }
             }])
-            console.log(o)
+            projectInfo = {
+                type,
+                ...project
+            }
         } else if(type === TYPE_COMPONENT) {
 
         }

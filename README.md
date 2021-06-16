@@ -223,3 +223,6 @@ command类提供一下几个方法
 #### 选项 targetPath
 
 `-tp, --targetPath`这个选项用于执行本地代码的路径, 用于调试
+
+# server目录
+项目后端服务
