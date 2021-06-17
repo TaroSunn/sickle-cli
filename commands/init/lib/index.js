@@ -5,6 +5,7 @@ const semver = require('semver')
 const inquirer = require('inquirer')
 const Command = require('@sickle/cli-command')
 const log = require('@sickle/cli-log')
+const getProjectTemplate = require('./getProjectTemplate')
 
 const TYPE_PROJECT = 'project'
 const TYPE_COMPONENT = 'component'
@@ -20,6 +21,8 @@ class InitCommand extends Command {
             const projectInfo = await this.prepare()  
             if(projectInfo) {
                 log.verbose('projectInfo', projectInfo)
+                this.projectInfo = projectInfo
+                this.downloadTemplate()
             }
         } catch (error) {
             log.error(error)
@@ -27,10 +30,16 @@ class InitCommand extends Command {
     }
 
     downloadTemplate() {
-
+        console.log(this.projectInfo, this.template)
     }
     
     async prepare() {
+        const template = await getProjectTemplate()
+        if(!template || template.length === 0) {
+            throw new Error('项目模版不存在')
+        }
+        this.template = template
+
         const localPath = process.cwd()
         if(!this.isDirEmpty(localPath)) {
             let ifContinue = false

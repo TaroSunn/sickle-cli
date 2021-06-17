@@ -1,9 +1,9 @@
 {
-  "name": "@sickle/cli-init",
+  "name": "@sickle/cli-request",
   "version": "2.0.3",
   "description": "> TODO: description",
   "author": "tarosun <sunxiaomingyes@gmail.com>",
-  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/commands/cli-init#readme",
+  "homepage": "https://github.com/TaroSunn/sickle-cli/tree/main/utils/cli-request#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -27,12 +27,6 @@
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
   "dependencies": {
-    "@sickle/cli-command": "^2.0.3",
-    "@sickle/cli-log": "^2.0.3",
-    "@sickle/cli-request": "^2.0.3",
-    "fs-extra": "^10.0.0",
-    "inquirer": "^8.1.0",
-    "semver": "^7.3.5"
-  },
-  "gitHead": "a9db2422dbf7da752cf508ee4c1a223df50feda0"
+    "axios": "^0.21.1"
+  }
 }
