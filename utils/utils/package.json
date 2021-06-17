@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/TaroSunn/sickle-cli/issues"
   },
-  "gitHead": "a9db2422dbf7da752cf508ee4c1a223df50feda0"
+  "gitHead": "a9db2422dbf7da752cf508ee4c1a223df50feda0",
+  "dependencies": {
+    "cli-spinner": "^0.2.10"
+  }
 }

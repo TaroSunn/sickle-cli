@@ -3,9 +3,12 @@ const path = require('path')
 const fse = require('fs-extra')
 const semver = require('semver')
 const inquirer = require('inquirer')
+const os =require('os')
 const Command = require('@sickle/cli-command')
+const Package = require('@sickle/cli-package')
 const log = require('@sickle/cli-log')
 const getProjectTemplate = require('./getProjectTemplate')
+const {spinnerStart} = require('@sickle/cli-utils')
 
 const TYPE_PROJECT = 'project'
 const TYPE_COMPONENT = 'component'
@@ -22,15 +25,48 @@ class InitCommand extends Command {
             if(projectInfo) {
                 log.verbose('projectInfo', projectInfo)
                 this.projectInfo = projectInfo
-                this.downloadTemplate()
+                await this.downloadTemplate()
             }
         } catch (error) {
             log.error(error)
         }
     }
 
-    downloadTemplate() {
-        console.log(this.projectInfo, this.template)
+    async downloadTemplate() {
+        const {projectTemplate} = this.projectInfo
+        const templateInfo = this.template.find(item => item.npmName === projectTemplate)
+        const targetPath = path.resolve(os.homedir(), '.sickle', 'template')
+        const storePath = path.resolve(os.homedir(), '.sickle', 'template', 'node_modules')
+        const {npmName, version} = templateInfo
+        const templateNpm = new Package({
+            targetPath,
+            storePath,
+            packageName: npmName,
+            packageVersion: version
+        })
+        if(!await templateNpm.exists()) {
+            const spinner = spinnerStart('正在下载模版')
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            try {
+                await templateNpm.install()
+                log.success('模版下载成功！')
+            } catch (error) {
+                throw error
+            } finally {
+                spinner.stop(true)
+            }
+        } else {
+            const spinner = spinnerStart('正在更新模版')
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            try {
+                await templateNpm.update()
+                log.success('模版更新成功！')
+            } catch (error) {
+                throw error
+            } finally {
+                spinner.stop(true)
+            }
+        }
     }
     
     async prepare() {
