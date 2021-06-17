@@ -121,6 +121,11 @@ class InitCommand extends Command {
                 filter: (v) => {
                     return semver.valid(v) ? semver.valid(v) : v
                 }
+            }, {
+                type: 'list',
+                name: 'projectTemplate',
+                message: '请选择项目模版',
+                choices: this.createTemplateChoice()
             }])
             projectInfo = {
                 type,
@@ -130,6 +135,12 @@ class InitCommand extends Command {
 
         }
         return projectInfo
+    }
+    createTemplateChoice() {
+        return this.template.map(item => ({
+            value: item.npmName,
+            name: item.name
+        }))
     }
     isDirEmpty(localPath) {
         let fileList = fs.readdirSync(localPath)
